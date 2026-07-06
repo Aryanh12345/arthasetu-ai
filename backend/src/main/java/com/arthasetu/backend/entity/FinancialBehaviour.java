@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "financial_behaviour")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +24,9 @@ public class FinancialBehaviour {
 
     private Integer savingsScore;
 
+    private Integer incomeStability;
+
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }
