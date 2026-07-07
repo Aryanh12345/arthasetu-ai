@@ -1,32 +1,53 @@
 package com.arthasetu.backend.service;
 
-import com.arthasetu.backend.dto.ExplanationResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ExplanationService {
 
-    public ExplanationResponse explain() {
+    public Map<String,Object> explain(
+            int savings,
+            int utility,
+            int recharge,
+            int ecommerce,
+            int income){
 
-        return ExplanationResponse.builder()
-                .trustScore(797)
-                .confidence("HIGH")
+        Map<String,Object> response=new HashMap<>();
 
-                .topFactors(List.of(
-                        "Strong savings behaviour",
-                        "Regular utility payments",
-                        "Consistent mobile recharges"
-                ))
+        List<String> strengths=new ArrayList<>();
+        List<String> improvements=new ArrayList<>();
 
-                .improvements(List.of(
-                        "Create an emergency fund",
-                        "Start monthly SIP investments",
-                        "Reduce unnecessary spending"
-                ))
+        if(savings>=80)
+            strengths.add("Strong savings behaviour");
+        else
+            improvements.add("Increase monthly savings");
 
-                .financialHealth("GOOD")
-                .build();
+        if(utility>=80)
+            strengths.add("Pays utility bills on time");
+        else
+            improvements.add("Improve utility payment consistency");
+
+        if(recharge>=80)
+            strengths.add("Consistent mobile recharge pattern");
+        else
+            improvements.add("Maintain recharge consistency");
+
+        if(ecommerce>=80)
+            strengths.add("Healthy digital transaction history");
+        else
+            improvements.add("Increase trusted digital transactions");
+
+        if(income>=80)
+            strengths.add("Stable income");
+        else
+            improvements.add("Improve income stability");
+
+        response.put("strengths",strengths);
+        response.put("improvements",improvements);
+
+        return response;
     }
+
 }
