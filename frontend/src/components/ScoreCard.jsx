@@ -1,21 +1,63 @@
-export default function ScoreCard({score}){
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
-    return(
+export default function ScoreCard({ score }) {
 
-        <div className="rounded-xl bg-gray-800 p-6">
+  const percentage = score / 10;
 
-            <h2>Trust Score</h2>
+  return (
+    <div
+      style={{
+        background: "#1f2937",
+        borderRadius: "18px",
+        padding: "30px",
+        textAlign: "center",
+      }}
+    >
+      <h2
+        style={{
+          marginBottom: "30px",
+          fontSize: "28px",
+        }}
+      >
+        Trust Score
+      </h2>
 
-            <h1 className="text-6xl font-bold">
+      <div
+        style={{
+          width: "230px",
+          height: "230px",
+          margin: "auto",
+        }}
+      >
+        <CircularProgressbar
+          value={percentage}
+          text={`${score}`}
+          styles={buildStyles({
+            textColor: "#ffffff",
+            pathColor: "#22c55e",
+            trailColor: "#374151",
+            textSize: "18px",
+          })}
+        />
+      </div>
 
-                {score}
+      <h2
+        style={{
+          marginTop: "25px",
+          color: "#22c55e",
+        }}
+      >
+        GOOD
+      </h2>
 
-            </h1>
-
-            <p>/1000</p>
-
-        </div>
-
-    );
-
+      <p
+        style={{
+          color: "#9ca3af",
+        }}
+      >
+        Financial Stability Level
+      </p>
+    </div>
+  );
 }

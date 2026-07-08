@@ -1,23 +1,34 @@
-export default function StrengthCard(){
+export default function StrengthCard() {
 
-    return(
+  return (
 
-        <div className="rounded-xl bg-gray-800 p-6">
+    <div
+      style={{
+        background: "#1f2937",
+        borderRadius: "18px",
+        padding: "30px",
+      }}
+    >
+      <h2>Top Financial Strengths</h2>
 
-            <h2>Top Strengths</h2>
+      <br />
 
-            <ul>
+      <div>✅ Strong Savings Behaviour</div>
 
-                <li>✔ Strong Savings</li>
+      <br />
 
-                <li>✔ Timely Bill Payments</li>
+      <div>✅ Stable Monthly Income</div>
 
-                <li>✔ Stable Income</li>
+      <br />
 
-            </ul>
+      <div>✅ Utility Bills Paid On Time</div>
 
-        </div>
+      <br />
 
-    );
+      <div>✅ Consistent Financial Discipline</div>
+
+    </div>
+
+  );
 
 }
