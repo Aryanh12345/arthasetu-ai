@@ -1,38 +1,32 @@
-import { useEffect, useState } from "react";
-import { getTrustScore } from "../api/trustScoreApi";
+import Header from "../components/Header";
+import ScoreCard from "../components/ScoreCard";
+import FinancialHealthCard from "../components/FinancialHealthCard";
+import StrengthCard from "../components/StrengthCard";
+import RecommendationCard from "../components/RecommendationCard";
 
-function Dashboard() {
+export default function Dashboard() {
+  return (
+    <div className="min-h-screen bg-[#111827] text-white p-8">
 
-    const [score, setScore] = useState(null);
+      <Header />
 
-    useEffect(() => {
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2,1fr)",
+          gap: "20px",
+          marginTop: "40px"
+        }}
+      >
+        <ScoreCard score={785} />
 
-        getTrustScore().then((response) => {
+        <FinancialHealthCard />
 
-            setScore(response.data);
+        <StrengthCard />
 
-        });
+        <RecommendationCard />
+      </div>
 
-    }, []);
-
-    return (
-
-        <div>
-
-            <h1>ArthaSetu AI</h1>
-
-            <h2>Trust Score</h2>
-
-            <pre>
-
-                {JSON.stringify(score,null,2)}
-
-            </pre>
-
-        </div>
-
-    );
-
+    </div>
+  );
 }
-
-export default Dashboard;
