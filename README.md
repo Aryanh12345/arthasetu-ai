@@ -59,3 +59,23 @@ DevOps:
 ## Team Vision
 
 Our mission is to empower underserved communities by creating transparent, ethical, and explainable financial intelligence systems.
+
+## Explainable AI
+
+ArthaSetu AI explains every trust score by highlighting:
+
+- Financial strengths
+- Improvement opportunities
+- Human-readable reasoning
+
+## Investment Recommendation Engine
+
+Uses financial behaviour and trust score to recommend:
+
+- Emergency fund allocation
+- Index fund allocation
+- Fixed deposits
+- Gold ETF exposure
+- Skill development investment
+
+Designed as an explainable recommendation system.
