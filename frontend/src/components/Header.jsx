@@ -1,15 +1,42 @@
 export default function Header() {
-    return (
-        <header className="text-center py-8">
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "35px",
+      }}
+    >
+      <div>
+        <h1
+          style={{
+            fontSize: "42px",
+            margin: 0,
+          }}
+        >
+          Welcome Aryan 👋
+        </h1>
 
-            <h1 className="text-5xl font-bold">
-                ArthaSetu AI
-            </h1>
+        <p
+          style={{
+            color: "#9ca3af",
+            marginTop: "8px",
+          }}
+        >
+          Your AI Financial Intelligence Dashboard
+        </p>
+      </div>
 
-            <p className="text-gray-400 mt-2">
-                AI Powered Financial Intelligence Platform
-            </p>
-
-        </header>
-    );
+      <div
+        style={{
+          background: "#1f2937",
+          padding: "15px 25px",
+          borderRadius: "12px",
+        }}
+      >
+        🔔 No Alerts
+      </div>
+    </div>
+  );
 }

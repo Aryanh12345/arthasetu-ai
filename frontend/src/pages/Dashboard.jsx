@@ -1,4 +1,6 @@
+import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+
 import ScoreCard from "../components/ScoreCard";
 import FinancialHealthCard from "../components/FinancialHealthCard";
 import StrengthCard from "../components/StrengthCard";
@@ -10,33 +12,41 @@ export default function Dashboard() {
   return (
     <div
       style={{
+        display: "flex",
         background: "#111827",
-        minHeight: "100vh",
         color: "white",
-        padding: "30px",
+        minHeight: "100vh",
       }}
     >
-      <Header />
+      <Sidebar />
 
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2,1fr)",
-          gap: "25px",
-          marginTop: "40px",
+          flex: 1,
+          padding: "40px",
         }}
       >
-        <ScoreCard score={785} />
+        <Header />
 
-        <FinancialHealthCard />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2,1fr)",
+            gap: "25px",
+          }}
+        >
+          <ScoreCard score={785} />
 
-        <StrengthCard />
+          <FinancialHealthCard />
 
-        <RecommendationCard />
+          <StrengthCard />
 
-        <AIInsightCard />
+          <RecommendationCard />
 
-        <RoadmapCard />
+          <AIInsightCard />
+
+          <RoadmapCard />
+        </div>
       </div>
     </div>
   );
