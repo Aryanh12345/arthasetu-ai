@@ -1,53 +1,89 @@
+import {useEffect,useState} from "react";
+
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-
 import ScoreCard from "../components/ScoreCard";
 import FinancialHealthCard from "../components/FinancialHealthCard";
 import StrengthCard from "../components/StrengthCard";
 import RecommendationCard from "../components/RecommendationCard";
 import AIInsightCard from "../components/AIInsightCard";
 import RoadmapCard from "../components/RoadmapCard";
+import TrustScoreTrend from "../components/TrustScoreTrend";
 
-export default function Dashboard() {
-  return (
-    <div
-      style={{
-        display: "flex",
-        background: "#111827",
-        color: "white",
-        minHeight: "100vh",
-      }}
-    >
-      <Sidebar />
+import {getTrustScore} from "../api/trustScoreApi";
 
-      <div
-        style={{
-          flex: 1,
-          padding: "40px",
-        }}
-      >
-        <Header />
+export default function Dashboard(){
+
+    const [score,setScore]=useState(785);
+
+    useEffect(()=>{
+
+        getTrustScore()
+
+        .then(res=>{
+
+            setScore(res.data.score);
+
+        })
+
+        .catch(()=>{
+
+            console.log("Backend not connected");
+
+        });
+
+    },[]);
+
+    return(
 
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2,1fr)",
-            gap: "25px",
-          }}
+            style={{
+                display:"flex",
+                background:"#111827",
+                color:"white",
+                minHeight:"100vh"
+            }}
         >
-          <ScoreCard score={785} />
 
-          <FinancialHealthCard />
+            <Sidebar/>
 
-          <StrengthCard />
+            <div
+                style={{
+                    flex:1,
+                    padding:"35px"
+                }}
+            >
 
-          <RecommendationCard />
+                <Header/>
 
-          <AIInsightCard />
+                <div
+                    style={{
+                        display:"grid",
+                        gridTemplateColumns:"repeat(2,1fr)",
+                        gap:"25px"
+                    }}
+                >
 
-          <RoadmapCard />
+                    <ScoreCard score={score}/>
+
+                    <FinancialHealthCard/>
+
+                    <StrengthCard/>
+
+                    <RecommendationCard/>
+
+                    <TrustScoreTrend/>
+
+                    <AIInsightCard/>
+
+                    <RoadmapCard/>
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
-    </div>
-  );
+
+    );
+
 }
