@@ -1,5 +1,25 @@
-export default function RoadmapCard() {
+export default function RoadmapCard({ data }) {
+
+  if (!data) {
+
+    return (
+      <div
+        style={{
+          background: "#1f2937",
+          borderRadius: "15px",
+          padding: "20px",
+          color: "white",
+        }}
+      >
+        <h2>Financial Roadmap</h2>
+        <p>No roadmap available.</p>
+      </div>
+    );
+
+  }
+
   return (
+
     <div
       style={{
         background: "#1f2937",
@@ -9,6 +29,7 @@ export default function RoadmapCard() {
         minHeight: "260px",
       }}
     >
+
       <h2
         style={{
           marginBottom: "20px",
@@ -18,24 +39,67 @@ export default function RoadmapCard() {
         Financial Roadmap
       </h2>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "18px",
-          fontSize: "18px",
-        }}
-      >
-        <span>✅ Build Emergency Fund</span>
+      <p>
 
-        <span>✅ Maintain Savings</span>
+        <strong>Current Score:</strong>
 
-        <span>➡ Increase SIP Investment</span>
+        {" "}
 
-        <span>➡ Diversify Investments</span>
+        {data.currentScore}
 
-        <span>🏆 Target Trust Score : 900+</span>
-      </div>
+      </p>
+
+      <br />
+
+      <p>
+
+        <strong>Target Score:</strong>
+
+        {" "}
+
+        {data.targetScore}
+
+      </p>
+
+      <br />
+
+      <p>
+
+        <strong>Estimated Time:</strong>
+
+        {" "}
+
+        {data.estimatedMonths} Months
+
+      </p>
+
+      <br />
+
+      <h3>Action Plan</h3>
+
+      <ul>
+
+        {
+
+          data.actionItems.map((item, index) => (
+
+            <li
+              key={index}
+              style={{
+                marginBottom: "10px",
+              }}
+            >
+              {item}
+            </li>
+
+          ))
+
+        }
+
+      </ul>
+
     </div>
+
   );
+
 }

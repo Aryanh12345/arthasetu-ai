@@ -1,6 +1,49 @@
-export default function FinancialHealthCard() {
+export default function FinancialHealthCard({ health }) {
+
+  const getColor = () => {
+
+    switch (health) {
+
+      case "Excellent":
+        return "#22c55e";
+
+      case "Good":
+        return "#3b82f6";
+
+      case "Fair":
+        return "#f59e0b";
+
+      default:
+        return "#ef4444";
+
+    }
+
+  };
+
+  const getPercentage = () => {
+
+    switch (health) {
+
+      case "Excellent":
+        return 95;
+
+      case "Good":
+        return 82;
+
+      case "Fair":
+        return 65;
+
+      default:
+        return 40;
+
+    }
+
+  };
+
+  const percentage = getPercentage();
 
   return (
+
     <div
       style={{
         background: "#1f2937",
@@ -8,63 +51,41 @@ export default function FinancialHealthCard() {
         padding: "30px",
       }}
     >
+
       <h2>Financial Health</h2>
 
       <br />
 
-      <h3>Savings</h3>
-
       <progress
-        value="82"
+        value={percentage}
         max="100"
         style={{
           width: "100%",
-          height: "18px",
+          height: "20px",
         }}
       />
 
       <br />
       <br />
 
-      <h3>Income Stability</h3>
-
-      <progress
-        value="91"
-        max="100"
-        style={{
-          width: "100%",
-          height: "18px",
-        }}
-      />
-
-      <br />
-      <br />
-
-      <h3>Utility Payments</h3>
-
-      <progress
-        value="88"
-        max="100"
-        style={{
-          width: "100%",
-          height: "18px",
-        }}
-      />
-
-      <br />
-      <br />
-
-      <h3>Overall Health</h3>
+      <h3>Status</h3>
 
       <h1
         style={{
-          color: "#22c55e",
+          color: getColor()
         }}
       >
-        87%
+        {health}
       </h1>
 
+      <br />
+
+      <h3>Overall Health Score</h3>
+
+      <h2>{percentage}%</h2>
+
     </div>
+
   );
 
 }

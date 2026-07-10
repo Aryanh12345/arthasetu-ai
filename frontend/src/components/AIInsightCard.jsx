@@ -1,39 +1,106 @@
-export default function AIInsightCard() {
-  return (
-    <div
-      style={{
-        background: "#1f2937",
-        borderRadius: "15px",
-        padding: "20px",
-        color: "white",
-        minHeight: "260px",
-      }}
-    >
-      <h2
-        style={{
-          marginBottom: "20px",
-          fontSize: "28px",
-        }}
-      >
-        AI Insights
-      </h2>
+export default function AIInsightCard({ dashboard }) {
 
-      <ul
-        style={{
-          lineHeight: "2",
-          fontSize: "18px",
-        }}
-      >
-        <li>✅ Savings behaviour improved this month.</li>
+    if (!dashboard) {
 
-        <li>✅ Utility payments are always on time.</li>
+        return (
 
-        <li>📈 Predicted Trust Score next month: <b>807</b></li>
+            <div
+                style={{
+                    background: "#1f2937",
+                    borderRadius: "15px",
+                    padding: "20px",
+                    color: "white",
+                    minHeight: "260px",
+                }}
+            >
 
-        <li>💰 Investing ₹500/month can increase your score to <b>830+</b></li>
+                <h2>AI Insights</h2>
 
-        <li>🎯 Financial discipline is above average.</li>
-      </ul>
-    </div>
-  );
+                <p>No insights available.</p>
+
+            </div>
+
+        );
+
+    }
+
+    const nextScore = Math.min(
+        dashboard.trustScore + 25,
+        900
+    );
+
+    return (
+
+        <div
+            style={{
+                background: "#1f2937",
+                borderRadius: "15px",
+                padding: "20px",
+                color: "white",
+                minHeight: "260px",
+            }}
+        >
+
+            <h2
+                style={{
+                    marginBottom: "20px",
+                    fontSize: "28px",
+                }}
+            >
+                AI Insights
+            </h2>
+
+            <ul
+                style={{
+                    lineHeight: "2",
+                    fontSize: "18px",
+                }}
+            >
+
+                <li>
+
+                    Current Trust Score:
+
+                    <b> {dashboard.trustScore}</b>
+
+                </li>
+
+                <li>
+
+                    Financial Health:
+
+                    <b> {dashboard.financialHealth}</b>
+
+                </li>
+
+                <li>
+
+                    Predicted Next Score:
+
+                    <b> {nextScore}</b>
+
+                </li>
+
+                <li>
+
+                    Target Score:
+
+                    <b> {dashboard.actionPlan.targetScore}</b>
+
+                </li>
+
+                <li>
+
+                    Estimated Time:
+
+                    <b> {dashboard.actionPlan.estimatedMonths} Months</b>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    );
+
 }

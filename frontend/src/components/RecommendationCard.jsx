@@ -1,22 +1,65 @@
-export default function RecommendationCard(){
+export default function RecommendationCard({ data }) {
 
-    return(
+    if (!data) {
 
-        <div className="rounded-xl bg-gray-800 p-6">
+        return (
 
-            <h2>Investment Plan</h2>
+            <div className="rounded-xl bg-gray-800 p-6">
+
+                <h2>Investment Plan</h2>
+
+                <p>No recommendation available.</p>
+
+            </div>
+
+        );
+
+    }
+
+    return (
+
+        <div
+            className="rounded-xl bg-gray-800 p-6"
+        >
+
+            <h2
+                style={{
+                    marginBottom: "20px"
+                }}
+            >
+                AI Financial Recommendations
+            </h2>
+
+            <h3>
+
+                Risk Level:
+                {" "}
+                {data.riskLevel}
+
+            </h3>
+
+            <br />
 
             <ul>
 
-                <li>40% Index Funds</li>
+                {
 
-                <li>20% Emergency Fund</li>
+                    data.recommendations.map((item, index) => (
 
-                <li>20% Fixed Deposit</li>
+                        <li
+                            key={index}
+                            style={{
+                                marginBottom: "10px"
+                            }}
+                        >
 
-                <li>10% Gold ETF</li>
+                            {item}
 
-                <li>10% Skill Development</li>
+                        </li>
+
+                    ))
+
+                }
 
             </ul>
 
