@@ -2,76 +2,53 @@ package com.arthasetu.backend.service;
 
 import com.arthasetu.backend.dto.ScenarioRequest;
 import com.arthasetu.backend.dto.ScenarioResponse;
+import com.arthasetu.backend.engine.TrustScoreEngine;
+import com.arthasetu.backend.entity.FinancialBehaviour;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ScenarioService {
+
+    private final TrustScoreEngine trustScoreEngine;
 
     public ScenarioResponse predict(ScenarioRequest request) {
 
-        double score =
+        FinancialBehaviour behaviour = new FinancialBehaviour();
 
-                request.getSavingsScore() * 3.0 +
+        behaviour.setSavingsScore(request.getSavingsScore());
+        behaviour.setUtilityPaymentScore(request.getUtilityPaymentScore());
+        behaviour.setRechargeFrequency(request.getRechargeFrequency());
+        behaviour.setEcommerceActivity(request.getEcommerceActivity());
+        behaviour.setIncomeStability(request.getIncomeStability());
 
-                request.getUtilityPaymentScore() * 2.5 +
+        int trustScore = trustScoreEngine.calculate(behaviour);
 
-                request.getRechargeFrequency() * 2.0 +
-
-                request.getEcommerceActivity() * 1.5 +
-
-                request.getIncomeStability() * 1.0;
-
-        int trustScore = (int) score;
-
-        String health;
-
-        if (trustScore >= 900) {
-
-            health = "Excellent";
-
-        } else if (trustScore >= 750) {
-
-            health = "Good";
-
-        } else if (trustScore >= 600) {
-
-            health = "Fair";
-
-        } else {
-
-            health = "Needs Improvement";
-
-        }
+        String health = trustScoreEngine.getFinancialHealth(trustScore);
 
         String suggestion;
 
-        if (trustScore >= 900) {
+        switch (health) {
 
-            suggestion = "Maintain your current financial discipline and continue diversified investments.";
+            case "Excellent" ->
+                    suggestion = "Excellent financial discipline. Continue diversified investments.";
 
-        } else if (trustScore >= 750) {
+            case "Good" ->
+                    suggestion = "Increase SIP investments and maintain consistent savings.";
 
-            suggestion = "Increase your SIP amount and strengthen your emergency fund.";
+            case "Fair" ->
+                    suggestion = "Improve monthly savings and avoid delayed bill payments.";
 
-        } else if (trustScore >= 600) {
+            default ->
+                    suggestion = "Focus on income stability, regular savings and financial discipline.";
 
-            suggestion = "Improve savings consistency and avoid delayed bill payments.";
-
-        } else {
-
-            suggestion = "Focus on regular savings, timely payments and improving income stability.";
         }
 
         return ScenarioResponse.builder()
-
                 .predictedTrustScore(trustScore)
-
                 .financialHealth(health)
-
                 .suggestion(suggestion)
-
                 .build();
-
     }
-
 }

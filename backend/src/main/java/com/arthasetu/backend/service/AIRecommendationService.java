@@ -1,61 +1,79 @@
 package com.arthasetu.backend.service;
 
 import com.arthasetu.backend.dto.RecommendationResponse;
+import com.arthasetu.backend.engine.TrustScoreEngine;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AIRecommendationService {
 
-    public RecommendationResponse generate(Integer score){
+    private final TrustScoreEngine trustScoreEngine;
 
-        List<String> list = new ArrayList<>();
+    public RecommendationResponse generate(Integer score) {
 
-        String risk;
+        List<String> recommendations = new ArrayList<>();
 
-        if(score >= 900){
+        String health = trustScoreEngine.getFinancialHealth(score);
 
-            risk = "Low Risk";
+        String riskLevel;
 
-            list.add("Increase equity allocation.");
-            list.add("Maintain SIP investments.");
-            list.add("Consider international index funds.");
-            list.add("Review portfolio every quarter.");
+        switch (health) {
 
-        }
+            case "Excellent" -> {
 
-        else if(score >= 750){
+                riskLevel = "Low Risk";
 
-            risk = "Balanced";
+                recommendations.add("Continue long-term SIP investments.");
+                recommendations.add("Diversify into international index funds.");
+                recommendations.add("Review portfolio every quarter.");
+                recommendations.add("Increase retirement investments.");
+                recommendations.add("Maintain your excellent financial discipline.");
+            }
 
-            list.add("Increase monthly savings.");
-            list.add("Invest in index funds.");
-            list.add("Build six months emergency fund.");
-            list.add("Maintain payment discipline.");
+            case "Good" -> {
 
-        }
+                riskLevel = "Balanced";
 
-        else{
+                recommendations.add("Increase monthly savings by 10%.");
+                recommendations.add("Build a 6-month emergency fund.");
+                recommendations.add("Invest regularly in index funds.");
+                recommendations.add("Keep all bill payments on time.");
+                recommendations.add("Track monthly expenses.");
+            }
 
-            risk = "High Risk";
+            case "Fair" -> {
 
-            list.add("Avoid risky investments.");
-            list.add("Improve savings consistency.");
-            list.add("Reduce unnecessary spending.");
-            list.add("Increase income stability.");
+                riskLevel = "Moderate Risk";
+
+                recommendations.add("Increase savings consistency.");
+                recommendations.add("Reduce unnecessary spending.");
+                recommendations.add("Avoid missing utility payments.");
+                recommendations.add("Start a monthly SIP.");
+                recommendations.add("Improve income stability.");
+            }
+
+            default -> {
+
+                riskLevel = "High Risk";
+
+                recommendations.add("Focus on emergency savings.");
+                recommendations.add("Avoid high-risk investments.");
+                recommendations.add("Increase regular income.");
+                recommendations.add("Clear outstanding liabilities.");
+                recommendations.add("Build financial discipline before investing.");
+            }
 
         }
 
         return RecommendationResponse.builder()
-
                 .trustScore(score)
-                .riskLevel(risk)
-                .recommendations(list)
-
+                .riskLevel(riskLevel)
+                .recommendations(recommendations)
                 .build();
-
     }
-
 }

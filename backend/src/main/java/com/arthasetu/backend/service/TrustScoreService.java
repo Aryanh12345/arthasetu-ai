@@ -1,12 +1,19 @@
 package com.arthasetu.backend.service;
 
+import com.arthasetu.backend.engine.TrustScoreEngine;
 import com.arthasetu.backend.entity.FinancialBehaviour;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TrustScoreService {
 
-    // Temporary method used by the existing controller
+    private final TrustScoreEngine trustScoreEngine;
+
+    /**
+     * Legacy support for existing controllers.
+     */
     public int calculateScore(
             int savings,
             int utility,
@@ -15,25 +22,31 @@ public class TrustScoreService {
             int incomeStability
     ) {
 
-        double score =
-                savings * 3.0 +
-                utility * 2.5 +
-                recharge * 2.0 +
-                ecommerce * 1.5 +
-                incomeStability * 1.0;
+        FinancialBehaviour behaviour = new FinancialBehaviour();
 
-        return (int) (score * 10);
+        behaviour.setSavingsScore(savings);
+        behaviour.setUtilityPaymentScore(utility);
+        behaviour.setRechargeFrequency(recharge);
+        behaviour.setEcommerceActivity(ecommerce);
+        behaviour.setIncomeStability(incomeStability);
+
+        return trustScoreEngine.calculate(behaviour);
+
     }
 
-    // New method for the database-driven version
+    /**
+     * Main method used by the application.
+     */
     public Integer calculate(FinancialBehaviour behaviour) {
 
-        return calculateScore(
-                behaviour.getSavingsScore(),
-                behaviour.getUtilityPaymentScore(),
-                behaviour.getRechargeFrequency(),
-                behaviour.getEcommerceActivity(),
-                behaviour.getIncomeStability()
-        );
+        return trustScoreEngine.calculate(behaviour);
+
     }
+
+    public String getFinancialHealth(Integer score){
+
+        return trustScoreEngine.getFinancialHealth(score);
+
+    }
+
 }
