@@ -1,4 +1,38 @@
-export default function StrengthCard() {
+export default function StrengthCard({ dashboard }) {
+
+  if (!dashboard) {
+
+    return (
+
+      <div
+        style={{
+          background: "#1f2937",
+          borderRadius: "18px",
+          padding: "30px",
+          color: "white"
+        }}
+      >
+        Loading...
+      </div>
+
+    );
+
+  }
+
+  const strengths = [];
+
+  if (dashboard.trustScore >= 800)
+    strengths.push("Excellent Trust Score");
+
+  if (
+    dashboard.financialHealth === "Excellent" ||
+    dashboard.financialHealth === "Good"
+  )
+    strengths.push("Strong Financial Health");
+
+  dashboard.recommendation.recommendations
+    .slice(0, 2)
+    .forEach(item => strengths.push(item));
 
   return (
 
@@ -7,25 +41,32 @@ export default function StrengthCard() {
         background: "#1f2937",
         borderRadius: "18px",
         padding: "30px",
+        color: "white"
       }}
     >
+
       <h2>Top Financial Strengths</h2>
 
       <br />
 
-      <div>✅ Strong Savings Behaviour</div>
+      {
 
-      <br />
+        strengths.map((item, index) => (
 
-      <div>✅ Stable Monthly Income</div>
+          <div
+            key={index}
+            style={{
+              marginBottom: "15px"
+            }}
+          >
 
-      <br />
+            ✅ {item}
 
-      <div>✅ Utility Bills Paid On Time</div>
+          </div>
 
-      <br />
+        ))
 
-      <div>✅ Consistent Financial Discipline</div>
+      }
 
     </div>
 

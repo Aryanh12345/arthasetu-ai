@@ -8,16 +8,43 @@ import {
   CartesianGrid
 } from "recharts";
 
-const data = [
-  { month: "Jan", score: 620 },
-  { month: "Feb", score: 655 },
-  { month: "Mar", score: 690 },
-  { month: "Apr", score: 720 },
-  { month: "May", score: 760 },
-  { month: "Jun", score: 785 }
-];
+export default function TrustScoreTrend({ dashboard }) {
 
-export default function TrustScoreTrend() {
+  if (!dashboard) {
+
+    return (
+      <div
+        style={{
+          background:"#1f2937",
+          padding:"25px",
+          borderRadius:"18px",
+          color:"white"
+        }}
+      >
+        Loading...
+      </div>
+    );
+
+  }
+
+  const data = [
+
+    { month: "Jan", score: 620 },
+
+    { month: "Feb", score: 655 },
+
+    { month: "Mar", score: 690 },
+
+    { month: "Apr", score: 720 },
+
+    { month: "May", score: 760 },
+
+    {
+      month: "Current",
+      score: dashboard.trustScore
+    }
+
+  ];
 
   return (
 
@@ -31,32 +58,33 @@ export default function TrustScoreTrend() {
 
       <h2>Trust Score Progress</h2>
 
-      <div style={{width:"100%",height:"300px"}}>
+      <br/>
 
-        <ResponsiveContainer>
+      <ResponsiveContainer
+        width="100%"
+        height={300}
+      >
 
-          <LineChart data={data}>
+        <LineChart data={data}>
 
-            <CartesianGrid strokeDasharray="3 3"/>
+          <CartesianGrid strokeDasharray="3 3"/>
 
-            <XAxis dataKey="month"/>
+          <XAxis dataKey="month"/>
 
-            <YAxis/>
+          <YAxis/>
 
-            <Tooltip/>
+          <Tooltip/>
 
-            <Line
-              type="monotone"
-              dataKey="score"
-              stroke="#22c55e"
-              strokeWidth={4}
-            />
+          <Line
+            type="monotone"
+            dataKey="score"
+            stroke="#22c55e"
+            strokeWidth={4}
+          />
 
-          </LineChart>
+        </LineChart>
 
-        </ResponsiveContainer>
-
-      </div>
+      </ResponsiveContainer>
 
     </div>
 

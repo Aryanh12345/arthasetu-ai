@@ -1,4 +1,27 @@
-export default function AIFinancialCoach() {
+export default function AIFinancialCoach({ dashboard }) {
+
+  if (!dashboard) {
+
+    return (
+
+      <div
+        style={{
+          background:"#1f2937",
+          borderRadius:"18px",
+          padding:"30px",
+          color:"white"
+        }}
+      >
+        Loading...
+      </div>
+
+    );
+
+  }
+
+  const user = dashboard.user;
+
+  const action = dashboard.actionPlan.actionItems[0];
 
   return (
 
@@ -26,32 +49,42 @@ export default function AIFinancialCoach() {
           lineHeight:"2"
         }}
       >
-        Good evening, Aryan.
+
+        Hello,
+
+        <strong> {user.fullName}</strong>
 
         <br/><br/>
 
-        Your financial behaviour is improving steadily.
+        Your current Trust Score is
+
+        <strong> {dashboard.trustScore}</strong>.
 
         <br/><br/>
 
-        ✔ Continue your monthly savings habit.
+        Your financial health is
 
-        <br/>
-
-        ✔ Increase SIP investment by ₹1,000.
-
-        <br/>
-
-        ✔ Keep emergency savings for at least 6 months.
-
-        <br/>
-
-        ✔ Maintain your utility payment consistency.
+        <strong> {dashboard.financialHealth}</strong>.
 
         <br/><br/>
 
-        📈 Estimated Trust Score after 6 months:
-        <strong> 842</strong>
+        Today's highest priority:
+
+        <br/>
+
+        ✔ {action}
+
+        <br/><br/>
+
+        Target Trust Score:
+
+        <strong> {dashboard.actionPlan.targetScore}</strong>
+
+        <br/>
+
+        Estimated Time:
+
+        <strong> {dashboard.actionPlan.estimatedMonths} Months</strong>
 
       </p>
 
