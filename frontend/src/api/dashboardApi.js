@@ -4,5 +4,5 @@ const api = axios.create({
     baseURL: "http://localhost:8080/api"
 });
 
-export const saveFinancialBehaviour = (data) =>
-    api.post("/financial-behaviour", data);
+export const getDashboard = (userId) =>
+    api.get(`/dashboard/${userId}`);

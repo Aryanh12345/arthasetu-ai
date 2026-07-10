@@ -13,19 +13,57 @@ import TrustScoreTrend from "../components/TrustScoreTrend";
 import AIFinancialCoach from "../components/AIFinancialCoach";
 import GoalTracker from "../components/GoalTracker";
 
-import { getTrustScore } from "../api/trustScoreApi";
+import { getDashboard } from "../api/dashboardApi";
 
 export default function Dashboard() {
 
-    const [score, setScore] = useState(785);
+    const [dashboard, setDashboard] = useState(null);
+
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
 
-        getTrustScore()
-            .then((res) => setScore(res.data.score))
-            .catch(() => console.log("Backend unavailable"));
+        if (!userId) return;
 
-    }, []);
+        getDashboard(userId)
+
+            .then((res) => {
+
+                setDashboard(res.data);
+
+            })
+
+            .catch((err) => {
+
+                console.log(err);
+
+            });
+
+    }, [userId]);
+
+    if (!dashboard) {
+
+        return (
+
+            <div
+                style={{
+                    background: "#111827",
+                    color: "white",
+                    height: "100vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "30px"
+                }}
+            >
+
+                Loading Dashboard...
+
+            </div>
+
+        );
+
+    }
 
     return (
 
@@ -38,7 +76,7 @@ export default function Dashboard() {
             }}
         >
 
-            <Sidebar/>
+            <Sidebar />
 
             <div
                 style={{
@@ -47,7 +85,19 @@ export default function Dashboard() {
                 }}
             >
 
-                <Header/>
+                <Header />
+
+                <h2>
+
+                    Welcome,
+
+                    {" "}
+
+                    {dashboard.user.fullName}
+
+                </h2>
+
+                <br />
 
                 <div
                     style={{
@@ -57,23 +107,31 @@ export default function Dashboard() {
                     }}
                 >
 
-                    <ScoreCard score={score}/>
+                    <ScoreCard
+                        score={dashboard.trustScore}
+                    />
 
-                    <FinancialHealthCard/>
+                    <FinancialHealthCard
+                        health={dashboard.financialHealth}
+                    />
 
-                    <StrengthCard/>
+                    <RecommendationCard
+                        data={dashboard.recommendation}
+                    />
 
-                    <RecommendationCard/>
+                    <RoadmapCard
+                        data={dashboard.actionPlan}
+                    />
 
-                    <TrustScoreTrend/>
+                    <StrengthCard />
 
-                    <AIInsightCard/>
+                    <TrustScoreTrend />
 
-                    <RoadmapCard/>
+                    <AIInsightCard />
 
-                    <GoalTracker/>
+                    <GoalTracker />
 
-                    <AIFinancialCoach/>
+                    <AIFinancialCoach />
 
                 </div>
 
