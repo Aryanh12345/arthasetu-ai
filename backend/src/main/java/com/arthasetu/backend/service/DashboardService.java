@@ -23,6 +23,8 @@ public class DashboardService {
 
     private final ActionPlanService actionPlanService;
 
+    private final TrustScoreHistoryService trustScoreHistoryService;
+
     public DashboardResponse getDashboard(Long userId){
 
         User user = userService.getUser(userId);
@@ -40,6 +42,7 @@ public class DashboardService {
 
         Integer trustScore =
                 trustScoreService.calculate(behaviour);
+                trustScoreHistoryService.save(user, trustScore);
 
         String health =
                 trustScoreService.getFinancialHealth(trustScore);
