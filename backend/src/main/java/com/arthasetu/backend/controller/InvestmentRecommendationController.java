@@ -6,17 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/recommendation")
+@RequestMapping("/api/investment")
 @RequiredArgsConstructor
 public class InvestmentRecommendationController {
 
     private final InvestmentRecommendationService service;
 
-    @GetMapping("/{score}")
-    public InvestmentRecommendationResponse recommend(
-            @PathVariable Integer score){
+    @GetMapping("/{trustScore}")
+    public InvestmentRecommendationResponse getRecommendation(
+            @PathVariable Integer trustScore) {
 
-        return service.recommend(score);
+        return service.generate(trustScore);
 
     }
 

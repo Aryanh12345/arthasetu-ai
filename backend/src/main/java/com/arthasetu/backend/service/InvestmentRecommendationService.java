@@ -6,23 +6,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class InvestmentRecommendationService {
 
-    public InvestmentRecommendationResponse recommend(int trustScore){
+    public InvestmentRecommendationResponse generate(Integer trustScore) {
 
-        if(trustScore >= 850){
+        if (trustScore >= 850) {
 
             return InvestmentRecommendationResponse.builder()
-                    .riskProfile("Aggressive")
+                    .riskProfile("Aggressive Growth")
                     .emergencyFund(15)
-                    .indexFunds(50)
+                    .indexFunds(55)
                     .fixedDeposit(10)
                     .goldETF(10)
-                    .skillDevelopment(15)
-                    .reason("High financial discipline and stable behaviour.")
+                    .skillDevelopment(10)
+                    .reason("Strong financial discipline allows higher equity allocation.")
                     .build();
 
         }
 
-        if(trustScore >=700){
+        if (trustScore >= 700) {
 
             return InvestmentRecommendationResponse.builder()
                     .riskProfile("Balanced")
@@ -31,19 +31,21 @@ public class InvestmentRecommendationService {
                     .fixedDeposit(20)
                     .goldETF(10)
                     .skillDevelopment(10)
-                    .reason("Moderate financial stability with good saving habits.")
+                    .reason("Balanced portfolio suitable for moderate risk.")
                     .build();
 
         }
 
         return InvestmentRecommendationResponse.builder()
                 .riskProfile("Conservative")
-                .emergencyFund(40)
-                .indexFunds(15)
+                .emergencyFund(35)
+                .indexFunds(20)
                 .fixedDeposit(30)
                 .goldETF(10)
                 .skillDevelopment(5)
-                .reason("Focus on stability before taking higher investment risk.")
+                .reason("Focus on financial stability before increasing investment risk.")
                 .build();
+
     }
+
 }

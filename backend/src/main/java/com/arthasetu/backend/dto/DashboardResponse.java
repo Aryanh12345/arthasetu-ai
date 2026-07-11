@@ -1,10 +1,9 @@
 package com.arthasetu.backend.dto;
 
-
-import java.util.List;
-
 import com.arthasetu.backend.entity.User;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +19,8 @@ public class DashboardResponse {
     private String financialHealth;
 
     private RecommendationResponse recommendation;
+
+    private InvestmentRecommendationResponse investmentRecommendation;
 
     private ActionPlanResponse actionPlan;
 

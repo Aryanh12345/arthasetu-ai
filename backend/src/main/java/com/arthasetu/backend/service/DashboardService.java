@@ -1,9 +1,6 @@
 package com.arthasetu.backend.service;
 
-import com.arthasetu.backend.dto.ActionPlanResponse;
-import com.arthasetu.backend.dto.DashboardResponse;
-import com.arthasetu.backend.dto.RecommendationResponse;
-import com.arthasetu.backend.dto.TrustScoreHistoryResponse;
+import com.arthasetu.backend.dto.*;
 import com.arthasetu.backend.entity.FinancialBehaviour;
 import com.arthasetu.backend.entity.User;
 import com.arthasetu.backend.repository.FinancialBehaviourRepository;
@@ -23,6 +20,8 @@ public class DashboardService {
     private final TrustScoreService trustScoreService;
 
     private final AIRecommendationService recommendationService;
+
+    private final InvestmentRecommendationService investmentRecommendationService;
 
     private final ActionPlanService actionPlanService;
 
@@ -44,10 +43,10 @@ public class DashboardService {
         // Calculate Trust Score
         Integer trustScore = trustScoreService.calculate(behaviour);
 
-        // Save Trust Score History
+        // Save History
         trustScoreHistoryService.save(user, trustScore);
 
-        // Load Trust Score History
+        // Load History
         List<TrustScoreHistoryResponse> history =
                 trustScoreHistoryService
                         .getHistory(user)
@@ -68,19 +67,24 @@ public class DashboardService {
         RecommendationResponse recommendation =
                 recommendationService.generate(trustScore);
 
+        // Investment Recommendation
+        InvestmentRecommendationResponse investmentRecommendation =
+                investmentRecommendationService.generate(trustScore);
+
         // Action Plan
         ActionPlanResponse actionPlan =
                 actionPlanService.generate(trustScore);
 
-        // Build Dashboard Response
         return DashboardResponse.builder()
                 .user(user)
                 .trustScore(trustScore)
                 .financialHealth(financialHealth)
                 .recommendation(recommendation)
+                .investmentRecommendation(investmentRecommendation)
                 .actionPlan(actionPlan)
                 .scoreHistory(history)
                 .build();
+
     }
 
 }
