@@ -1,5 +1,8 @@
 package com.arthasetu.backend.dto;
 
+
+import java.util.List;
+
 import com.arthasetu.backend.entity.User;
 import lombok.*;
 
@@ -19,5 +22,7 @@ public class DashboardResponse {
     private RecommendationResponse recommendation;
 
     private ActionPlanResponse actionPlan;
+
+    private List<TrustScoreHistoryResponse> scoreHistory;
 
 }

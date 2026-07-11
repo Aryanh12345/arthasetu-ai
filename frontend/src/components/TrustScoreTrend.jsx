@@ -13,6 +13,7 @@ export default function TrustScoreTrend({ dashboard }) {
   if (!dashboard) {
 
     return (
+
       <div
         style={{
           background:"#1f2937",
@@ -21,30 +22,22 @@ export default function TrustScoreTrend({ dashboard }) {
           color:"white"
         }}
       >
+
         Loading...
+
       </div>
+
     );
 
   }
 
-  const data = [
+  const data = dashboard.scoreHistory.map((item, index) => ({
 
-    { month: "Jan", score: 620 },
+    month: `#${index + 1}`,
 
-    { month: "Feb", score: 655 },
+    score: item.score
 
-    { month: "Mar", score: 690 },
-
-    { month: "Apr", score: 720 },
-
-    { month: "May", score: 760 },
-
-    {
-      month: "Current",
-      score: dashboard.trustScore
-    }
-
-  ];
+  }));
 
   return (
 
@@ -56,7 +49,7 @@ export default function TrustScoreTrend({ dashboard }) {
       }}
     >
 
-      <h2>Trust Score Progress</h2>
+      <h2>Trust Score History</h2>
 
       <br/>
 

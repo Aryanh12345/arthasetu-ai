@@ -23,19 +23,19 @@ export default function Dashboard() {
 
     useEffect(() => {
 
-        if (!userId) return;
+        if (!userId) {
+            return;
+        }
 
         getDashboard(userId)
+            .then((response) => {
 
-            .then((res) => {
-
-                setDashboard(res.data);
+                setDashboard(response.data);
 
             })
+            .catch((error) => {
 
-            .catch((err) => {
-
-                console.log(err);
+                console.error(error);
 
             });
 
@@ -89,11 +89,7 @@ export default function Dashboard() {
 
                 <h2>
 
-                    Welcome,
-
-                    {" "}
-
-                    {dashboard.user.fullName}
+                    Welcome, {dashboard.user.fullName}
 
                 </h2>
 
@@ -102,7 +98,7 @@ export default function Dashboard() {
                 <div
                     style={{
                         display: "grid",
-                        gridTemplateColumns: "repeat(2,1fr)",
+                        gridTemplateColumns: "repeat(2, 1fr)",
                         gap: "25px"
                     }}
                 >
@@ -115,23 +111,33 @@ export default function Dashboard() {
                         health={dashboard.financialHealth}
                     />
 
+                    <StrengthCard
+                        dashboard={dashboard}
+                    />
+
                     <RecommendationCard
                         data={dashboard.recommendation}
+                    />
+
+                    <TrustScoreTrend
+                        dashboard={dashboard}
+                    />
+
+                    <AIInsightCard
+                        dashboard={dashboard}
                     />
 
                     <RoadmapCard
                         data={dashboard.actionPlan}
                     />
 
-                    <StrengthCard />
+                    <GoalTracker
+                        dashboard={dashboard}
+                    />
 
-                    <TrustScoreTrend />
-
-                    <AIInsightCard />
-
-                    <GoalTracker />
-
-                    <AIFinancialCoach />
+                    <AIFinancialCoach
+                        dashboard={dashboard}
+                    />
 
                 </div>
 
