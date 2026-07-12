@@ -4,15 +4,19 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ScenarioResponse {
 
     private Integer predictedTrustScore;
 
     private String financialHealth;
 
-    private String suggestion;
+    private RecommendationResponse recommendation;
+
+    private InvestmentRecommendationResponse investmentRecommendation;
+
+    private ActionPlanResponse actionPlan;
 
 }
