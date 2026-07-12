@@ -7,6 +7,7 @@ import ScenarioSimulator from "./pages/ScenarioSimulator";
 
 function App() {
   return (
+    
     <ScenarioSimulator />
   );
 }
