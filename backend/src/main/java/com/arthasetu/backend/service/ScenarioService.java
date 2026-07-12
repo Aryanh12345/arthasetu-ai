@@ -1,8 +1,10 @@
 package com.arthasetu.backend.service;
 
+import com.arthasetu.backend.dto.ActionPlanResponse;
+import com.arthasetu.backend.dto.InvestmentRecommendationResponse;
+import com.arthasetu.backend.dto.RecommendationResponse;
 import com.arthasetu.backend.dto.ScenarioRequest;
 import com.arthasetu.backend.dto.ScenarioResponse;
-import com.arthasetu.backend.engine.TrustScoreEngine;
 import com.arthasetu.backend.entity.FinancialBehaviour;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,44 +13,46 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ScenarioService {
 
-    private final TrustScoreEngine trustScoreEngine;
+    private final TrustScoreService trustScoreService;
+
+    private final AIRecommendationService recommendationService;
+
+    private final InvestmentRecommendationService investmentRecommendationService;
+
+    private final ActionPlanService actionPlanService;
 
     public ScenarioResponse predict(ScenarioRequest request) {
 
-        FinancialBehaviour behaviour = new FinancialBehaviour();
+        FinancialBehaviour behaviour = FinancialBehaviour.builder()
+                .rechargeFrequency(request.getRechargeFrequency())
+                .utilityPaymentScore(request.getUtilityPaymentScore())
+                .ecommerceActivity(request.getEcommerceActivity())
+                .savingsScore(request.getSavingsScore())
+                .incomeStability(request.getIncomeStability())
+                .build();
 
-        behaviour.setSavingsScore(request.getSavingsScore());
-        behaviour.setUtilityPaymentScore(request.getUtilityPaymentScore());
-        behaviour.setRechargeFrequency(request.getRechargeFrequency());
-        behaviour.setEcommerceActivity(request.getEcommerceActivity());
-        behaviour.setIncomeStability(request.getIncomeStability());
+        Integer trustScore = trustScoreService.calculate(behaviour);
 
-        int trustScore = trustScoreEngine.calculate(behaviour);
+        String financialHealth =
+                trustScoreService.getFinancialHealth(trustScore);
 
-        String health = trustScoreEngine.getFinancialHealth(trustScore);
+        RecommendationResponse recommendation =
+                recommendationService.generate(trustScore);
 
-        String suggestion;
+        InvestmentRecommendationResponse investmentRecommendation =
+                investmentRecommendationService.generate(trustScore);
 
-        switch (health) {
-
-            case "Excellent" ->
-                    suggestion = "Excellent financial discipline. Continue diversified investments.";
-
-            case "Good" ->
-                    suggestion = "Increase SIP investments and maintain consistent savings.";
-
-            case "Fair" ->
-                    suggestion = "Improve monthly savings and avoid delayed bill payments.";
-
-            default ->
-                    suggestion = "Focus on income stability, regular savings and financial discipline.";
-
-        }
+        ActionPlanResponse actionPlan =
+                actionPlanService.generate(trustScore);
 
         return ScenarioResponse.builder()
                 .predictedTrustScore(trustScore)
-                .financialHealth(health)
-                .suggestion(suggestion)
+                .financialHealth(financialHealth)
+                .recommendation(recommendation)
+                .investmentRecommendation(investmentRecommendation)
+                .actionPlan(actionPlan)
                 .build();
+
     }
+
 }
